@@ -5,6 +5,8 @@ required_env_vars=(
   MAILBOX_ROOT
   ARCHIVE_ROOT
   STALWART_URL
+  STALWART_USER
+  VANDELAY_PASSWORD
 )
 
 missing=()
@@ -26,8 +28,9 @@ if (( ${#missing[@]} > 0 )); then
   echo "Example:" >&2
   echo "  export MAILBOX_ROOT=/srv/miab-migration/mail/mailboxes" >&2
   echo "  export ARCHIVE_ROOT=/srv/miab-migration/vandelay" >&2
-  echo "  export STALWART_URL=http://127.0.0.1:8080" >&2
-  echo "  export VANDELAY_TOKEN='your-api-token'" >&2
+  echo "  export STALWART_URL=https://mail.example.com" >&2
+  echo "  export STALWART_USER=admin@example.com" >&2
+  echo "  export VANDELAY_PASSWORD='your-app-password'" >&2
 
   exit 1
 fi
@@ -65,7 +68,7 @@ for domain_dir in "$MAILBOX_ROOT"/*; do
     echo "Exporting to Stalwart..."
     vandelay export \
       --url "$STALWART_URL" \
-      --auth-bearer \
+      --auth-basic "$STALWART_USER" \
       --account-name "$email" \
       "$archive"
 
