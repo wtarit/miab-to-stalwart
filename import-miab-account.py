@@ -126,7 +126,7 @@ def normalize_password_hash(password):
     if password.startswith("$6$"):
         return password
 
-    raise ValueError(f"Unsupported password format: {password[:30]!r}")
+    raise ValueError("Unsupported password format (expected SHA512-CRYPT)")
 
 
 def create_user(email, password_hash, domain_id):
